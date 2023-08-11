@@ -1,0 +1,24 @@
+.pillsButton {
+  width: 150px;
+  height: 40px;
+  text-align: center;
+  background-color: aliceblue;
+  border-radius: 5px;
+}
+
+.pillsButton:active,
+.pillsButton:focus,
+.pillsButton:visited {
+  background-color: #e6f7ff !important;
+}
+
+.formStyle {
+  width: 350px;
+  flex-direction: column;
+}
+body {
+  background-image: url("../BackImage.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}

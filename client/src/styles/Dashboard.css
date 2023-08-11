@@ -1,0 +1,20 @@
+/* Reset the default margin and padding */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.pie {
+  width: 50%;
+  height: 50%;
+}
+
+@media (max-width: 767px) {
+  .pie {
+    width: 250px;
+    height: 250px;
+  }
+}
