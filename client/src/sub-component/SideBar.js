@@ -5,8 +5,11 @@ import { MdPerson } from "react-icons/md";
 import { AiFillDashboard } from "react-icons/ai";
 import "../styles/SideBar.css";
 import { Turn as Hamburger } from "hamburger-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Sidebar({ prop }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleCollapse = () => {
@@ -49,19 +52,35 @@ function Sidebar({ prop }) {
       </div>
       <ul className="sidebar-nav">
         <li className="listItems">
-          <AiFillDashboard size={isCollapsed ? 40 : 30} />
+          <AiFillDashboard
+            size={isCollapsed ? 40 : 30}
+            color={location.pathname === "/Dashboard" ? "silver" : ""}
+            onClick={() => navigate("/Dashboard")}
+          />
           {!isCollapsed && <h4>Dashboard</h4>}
         </li>
         <li className="listItems">
-          <MdPerson size={isCollapsed ? 40 : 30} />
+          <MdPerson
+            size={isCollapsed ? 40 : 30}
+            color={location.pathname === "/PendingPatients" ? "silver" : ""}
+            onClick={() => navigate("/PendingPatients")}
+          />
           {!isCollapsed && <h4>Pending Patients</h4>}
         </li>
         <li className="listItems">
-          <FaHistory size={isCollapsed ? 40 : 30} />
+          <FaHistory
+            size={isCollapsed ? 40 : 30}
+            color={location.pathname === "/PatientHistory" ? "silver" : ""}
+            onClick={() => navigate("/PatientHistory")}
+          />
           {!isCollapsed && <h4>Patients History</h4>}
         </li>
         <li className="listItems">
-          <IoMdSettings size={isCollapsed ? 40 : 30} />
+          <IoMdSettings
+            size={isCollapsed ? 40 : 30}
+            color={location.pathname === "/" ? "silver" : ""}
+            // onClick={() => navigate("/PendingPatients")}
+          />
           {!isCollapsed && <h4>Settings</h4>}
         </li>
       </ul>

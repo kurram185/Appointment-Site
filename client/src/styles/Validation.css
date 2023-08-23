@@ -16,9 +16,3 @@
   width: 350px;
   flex-direction: column;
 }
-body {
-  background-image: url("../BackImage.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}

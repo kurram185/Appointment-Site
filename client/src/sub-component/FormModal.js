@@ -4,6 +4,7 @@ import AppointementForm from "../components/AppointementForm";
 
 export default function FormModal({ showModal, closeModal }) {
   const [show, setShow] = useState(false);
+  const [submit, setSubmit] = useState(false);
 
   const handleClose = () => {
     setShow(false);
@@ -26,10 +27,15 @@ export default function FormModal({ showModal, closeModal }) {
           <Modal.Title>Doctor Appointment Request Form</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AppointementForm />
+          {submit ? <h1>Thank You</h1> : <AppointementForm />}
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-primary">Understood</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => (submit ? setShow(false) : setSubmit(true))}
+          >
+            {submit ? "I Understand" : "Submit"}
+          </button>
         </Modal.Footer>
       </Modal>
     </div>
