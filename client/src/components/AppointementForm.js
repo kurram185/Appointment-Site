@@ -1,13 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-export default function AppointementForm() {
+export default function AppointementForm({ data }) {
   const currentYear = new Date().getFullYear();
-  const [value, onChange] = useState(new Date());
+  const [appointData, setAppointData] = useState({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    birthMonth: "",
+    birthYear: "",
+    gender: "",
+    phone: Number,
+    address: "",
+    city: "",
+    state: "",
+    email: "",
+    appliedBefore: "",
+    procedure: "",
+    appointDate: new Date().toLocaleDateString(),
+  });
   const pastYears = 50;
+  useEffect(() => {
+    data(appointData);
+  }, [appointData]);
   return (
     <div
       className="container d-flex justify-content-center flex-column align-items-center  p-3"
@@ -24,11 +42,25 @@ export default function AppointementForm() {
         <h5>Name</h5>
         <div className="d-flex  justify-content-between">
           <div className="mr-3">
-            <input type="text" className="form-control" />
+            <input
+              type="text"
+              className="form-control"
+              value={appointData.firstName}
+              onChange={(e) =>
+                setAppointData({ ...appointData, firstName: e.target.value })
+              }
+            />
             <label>First Name</label>
           </div>
           <div className="ml-3">
-            <input type="text" className="form-control" />
+            <input
+              type="text"
+              className="form-control"
+              value={appointData.lastName}
+              onChange={(e) =>
+                setAppointData({ ...appointData, lastName: e.target.value })
+              }
+            />
             <label>Last Name</label>
           </div>
         </div>
@@ -45,11 +77,22 @@ export default function AppointementForm() {
                   border: "1px #ebebe0 solid",
                 }}
               >
-                Date
+                {appointData.birthDate ? appointData.birthDate : "Date"}
               </Dropdown.Toggle>
               <Dropdown.Menu style={{ height: "300px", overflowY: "auto" }}>
                 {Array.from({ length: 31 }, (_, index) => (
-                  <Dropdown.Item key={index + 1}>{index + 1}</Dropdown.Item>
+                  <Dropdown.Item
+                    key={index + 1}
+                    onClick={() => {
+                      const selectedDate = index + 1;
+                      setAppointData({
+                        ...appointData,
+                        birthDate: selectedDate.toString(),
+                      });
+                    }}
+                  >
+                    {index + 1}
+                  </Dropdown.Item>
                 ))}
               </Dropdown.Menu>
             </Dropdown>
@@ -66,7 +109,7 @@ export default function AppointementForm() {
                   border: "1px #ebebe0 solid",
                 }}
               >
-                Month
+                {appointData.birthMonth ? appointData.birthMonth : "Month"}
               </Dropdown.Toggle>
               <Dropdown.Menu style={{ height: "300px", overflowY: "auto" }}>
                 {[
@@ -83,7 +126,16 @@ export default function AppointementForm() {
                   "November",
                   "December",
                 ].map((m) => (
-                  <Dropdown.Item>{m}</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      setAppointData({
+                        ...appointData,
+                        birthMonth: m.toString(),
+                      });
+                    }}
+                  >
+                    {m}
+                  </Dropdown.Item>
                 ))}
               </Dropdown.Menu>
             </Dropdown>
@@ -99,11 +151,20 @@ export default function AppointementForm() {
                   border: "1px #ebebe0 solid",
                 }}
               >
-                Year
+                {appointData.birthYear ? appointData.birthYear : "Year"}
               </Dropdown.Toggle>
               <Dropdown.Menu style={{ height: "300px", overflowY: "auto" }}>
                 {Array.from({ length: pastYears + 1 }, (_, index) => (
-                  <Dropdown.Item>{currentYear - index}</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() =>
+                      setAppointData({
+                        ...appointData,
+                        birthYear: (currentYear - index).toString(),
+                      })
+                    }
+                  >
+                    {currentYear - index}
+                  </Dropdown.Item>
                 ))}
               </Dropdown.Menu>
             </Dropdown>
@@ -122,12 +183,30 @@ export default function AppointementForm() {
                   border: "1px #ebebe0 solid",
                 }}
               >
-                Gender
+                {appointData.gender ? appointData.gender : "Gender"}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item>Male</Dropdown.Item>
-                <Dropdown.Item>Female</Dropdown.Item>
-                <Dropdown.Item>Prefer Not say</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    setAppointData({ ...appointData, gender: "Male" })
+                  }
+                >
+                  Male
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    setAppointData({ ...appointData, gender: "Female" })
+                  }
+                >
+                  Female
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    setAppointData({ ...appointData, gender: "Prefer Not say" })
+                  }
+                >
+                  Prefer Not say
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -138,20 +217,45 @@ export default function AppointementForm() {
               className="form-control"
               placeholder="+92**********"
               maxLength={13}
+              value={appointData.phone}
+              onChange={(e) =>
+                setAppointData({ ...appointData, phone: e.target.value })
+              }
             />
           </div>
         </div>
 
         <h5>Address</h5>
-        <input type="text" className="form-control" />
+        <input
+          type="text"
+          className="form-control"
+          value={appointData.address}
+          onChange={(e) =>
+            setAppointData({ ...appointData, address: e.target.value })
+          }
+        />
         <label>Address</label>
         <div className="d-flex justify-content-between">
           <div>
-            <input type="text" className="form-control" />
+            <input
+              type="text"
+              className="form-control"
+              value={appointData.city}
+              onChange={(e) =>
+                setAppointData({ ...appointData, city: e.target.value })
+              }
+            />
             <label>City</label>
           </div>
           <div>
-            <input type="text" className="form-control" />
+            <input
+              type="text"
+              className="form-control"
+              value={appointData.state}
+              onChange={(e) =>
+                setAppointData({ ...appointData, state: e.target.value })
+              }
+            />
             <label>State/Province</label>
           </div>
         </div>
@@ -161,17 +265,35 @@ export default function AppointementForm() {
             type="email"
             className="form-control w-50"
             placeholder="example@example.com"
+            value={appointData.email}
+            onChange={(e) =>
+              setAppointData({ ...appointData, email: e.target.value })
+            }
           />
         </div>
         <div>
           <h5>Have you ever applied to our service before?</h5>
           <div className="d-flex flex-row justify-content-evenly">
             <div className="form-check ">
-              <input type="radio" className="form-check-input" />
+              <input
+                type="radio"
+                className="form-check-input"
+                onChange={() =>
+                  setAppointData({ ...appointData, appliedBefore: "yes" })
+                }
+                checked={appointData.appliedBefore === "yes"}
+              />
               <label className="from-check-label">Yes</label>
             </div>
             <div className="form-check">
-              <input type="radio" className="form-check-input" />
+              <input
+                type="radio"
+                className="form-check-input"
+                onChange={() =>
+                  setAppointData({ ...appointData, appliedBefore: "no" })
+                }
+                checked={appointData.appliedBefore === "no"}
+              />
               <label className="from-check-label">No</label>
             </div>
           </div>
@@ -187,13 +309,49 @@ export default function AppointementForm() {
                 border: "1px #ebebe0 solid",
               }}
             >
-              Select
+              {appointData.procedure ? appointData.procedure : "Select"}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item>Medical Examination</Dropdown.Item>
-              <Dropdown.Item>Result Analysis</Dropdown.Item>
-              <Dropdown.Item>Doctor Check</Dropdown.Item>
-              <Dropdown.Item>Check-Up</Dropdown.Item>
+              <Dropdown.Item
+                onClick={() =>
+                  setAppointData({
+                    ...appointData,
+                    procedure: "Medical Examination",
+                  })
+                }
+              >
+                Medical Examination
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() =>
+                  setAppointData({
+                    ...appointData,
+                    procedure: "Result Analysis",
+                  })
+                }
+              >
+                Result Analysis
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() =>
+                  setAppointData({
+                    ...appointData,
+                    procedure: " Doctor Check",
+                  })
+                }
+              >
+                Doctor Check
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() =>
+                  setAppointData({
+                    ...appointData,
+                    procedure: "Check-Up",
+                  })
+                }
+              >
+                Check-Up
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -202,11 +360,24 @@ export default function AppointementForm() {
           <input
             type="text"
             disabled
-            value={value}
+            value={appointData.appointDate}
             className="form-control"
             style={{ background: "white" }}
           />
-          <Calendar onChange={onChange} value={value} minDate={new Date()} />
+          <Calendar
+            onChange={(e) => {
+              setAppointData({
+                ...appointData,
+                appointDate: e.toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                }),
+              });
+            }}
+            value={appointData.appointDate}
+            minDate={new Date()}
+          />
         </div>
       </form>
     </div>

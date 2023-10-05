@@ -5,12 +5,56 @@ import AppointementForm from "../components/AppointementForm";
 export default function FormModal({ showModal, closeModal }) {
   const [show, setShow] = useState(false);
   const [submit, setSubmit] = useState(false);
+  const [submissionData, setData] = useState({});
 
   const handleClose = () => {
     setShow(false);
     closeModal(false);
   };
 
+  const handleSubmission = async (e) => {
+    e.preventDefault();
+    const {
+      firstName,
+      lastName,
+      birthDate,
+      birthMonth,
+      birthYear,
+      gender,
+      phone,
+      address,
+      city,
+      state,
+      email,
+      appliedBefore,
+      procedure,
+      appointDate,
+    } = submissionData;
+    const res = await fetch("/booking", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        birthDate,
+        birthMonth,
+        birthYear,
+        gender,
+        phone,
+        address,
+        city,
+        state,
+        email,
+        appliedBefore,
+        procedure,
+        appointDate,
+      }),
+    });
+
+    const resData = await res.json();
+    console.log(resData);
+    setSubmit(true);
+  };
   useEffect(() => setShow(showModal), [showModal]);
   return (
     <div>
@@ -27,12 +71,12 @@ export default function FormModal({ showModal, closeModal }) {
           <Modal.Title>Doctor Appointment Request Form</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {submit ? <h1>Thank You</h1> : <AppointementForm />}
+          {submit ? <h1>Thank You</h1> : <AppointementForm data={setData} />}
         </Modal.Body>
         <Modal.Footer>
           <button
             className="btn btn-primary"
-            onClick={() => (submit ? setShow(false) : setSubmit(true))}
+            onClick={(e) => (submit ? setShow(false) : handleSubmission(e))}
           >
             {submit ? "I Understand" : "Submit"}
           </button>

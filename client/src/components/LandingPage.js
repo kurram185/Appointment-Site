@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,9 +9,12 @@ import bootstrapImage from "../bootstrap.png";
 import reactImage from "../react.jpeg";
 import { useNavigate } from "react-router-dom";
 import FormModal from "../sub-component/FormModal";
+import { userContext } from "../App";
 
 export default function LandingPage() {
+  const { state, dispatch } = useContext(userContext);
   const [show, setShow] = useState(false);
+  console.log(state);
   const navigate = useNavigate();
   return (
     <>
@@ -28,7 +31,7 @@ export default function LandingPage() {
               href="#validation"
               onClick={() => navigate("/Validation")}
             >
-              Login/Signup
+              {state ? "Logout" : "Login/Signup"}
             </Nav.Link>
           </Nav>
         </Container>
